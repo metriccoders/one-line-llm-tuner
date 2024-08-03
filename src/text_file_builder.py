@@ -1,5 +1,4 @@
 import re
-
 def build_text_files(data_text, dest_path):
     f = open(dest_path, 'w')
     data = ''
