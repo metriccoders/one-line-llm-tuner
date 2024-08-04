@@ -19,3 +19,13 @@ You can install `one-line-llm-tuner` using pip:
 ```bash
 pip install one-line-llm-tuner
 ```
+
+## Usage
+
+The PyPI package can be used in the following way after installation.
+
+```bash
+from one_line_llm_tuner.tuner import llm_tuner
+
+print(llm_tuner.fine_tune_model("train.txt", "Metric Coders is "))
+```

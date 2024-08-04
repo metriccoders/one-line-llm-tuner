@@ -1,5 +1,4 @@
 from transformers import TextDataset, DataCollatorForLanguageModeling
-
 def load_dataset(train_path,test_path,tokenizer):
   train_dataset = TextDataset(tokenizer=tokenizer,file_path=train_path,block_size=64)
   test_dataset = TextDataset(tokenizer=tokenizer,file_path=test_path, block_size=64)

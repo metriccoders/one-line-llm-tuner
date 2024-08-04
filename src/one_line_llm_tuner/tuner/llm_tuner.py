@@ -1,7 +1,7 @@
 from transformers import Trainer, TrainingArguments, AutoModelWithLMHead, AutoTokenizer
-from file_reader import read_input_file
-from text_file_builder import build_text_files
-from datasets import load_dataset
+from one_line_llm_tuner.reader.file_reader import read_input_file
+from one_line_llm_tuner.builder.text_file_builder import build_text_files
+from one_line_llm_tuner.dataset.dataset_loader import load_dataset
 from sklearn.model_selection import train_test_split
 
 def fine_tune_model(input_file_path, predict_future_text):
