@@ -1,4 +1,4 @@
-from transformers import Trainer, TrainingArguments, AutoModelWithLMHead, AutoTokenizer
+from transformers import Trainer, TrainingArguments, AutoModelForCausalLM, AutoTokenizer
 from one_line_llm_tuner.reader.file_reader import read_input_file
 from one_line_llm_tuner.builder.text_file_builder import build_text_files
 from one_line_llm_tuner.dataset.dataset_loader import load_dataset
@@ -40,7 +40,7 @@ class FineTuneModel:
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name, truncation=self.tokenizer_truncate,
                                                        padding=self.tokenizer_padding)
 
-        self.model = AutoModelWithLMHead.from_pretrained('gpt2')
+        self.model = AutoModelForCausalLM.from_pretrained(self.model_name)
 
         self.training_args = TrainingArguments(output_dir=self.output_dir,
                                                num_train_epochs=self.num_train_epochs,
@@ -53,8 +53,7 @@ class FineTuneModel:
         self.num_return_sequences = num_return_sequences
         self.skip_special_tokens = skip_special_tokens
 
-
-        self.trainer = Trainer()
+        self.trainer = Trainer(model=self.model, args=self.training_args)
 
     def get_tokenizer(self):
         return self.tokenizer
@@ -62,34 +61,32 @@ class FineTuneModel:
     def get_init_model(self):
         return self.model
 
+    def fine_tune_model(self, input_file_path):
+        try:
+            text = read_input_file(input_file_path)
+            train, test = train_test_split(text, test_size=0.2)
+            build_text_files(train, self.training_dataset_filename)
+            build_text_files(test, self.testing_dataset_filename)
 
-def fine_tune_model(self, input_file_path):
-    try:
-        text = read_input_file(input_file_path)
-        train, test = train_test_split(text, test_size=0.2)
-        build_text_files(train, 'train_dataset.txt')
-        build_text_files(test, 'test_dataset.txt')
+            train_dataset, test_dataset, data_collator = load_dataset('train_dataset.txt', 'test_dataset.txt',
+                                                                      self.tokenizer)
 
-        train_dataset, test_dataset, data_collator = load_dataset('train_dataset.txt', 'test_dataset.txt',
-                                                                  self.tokenizer)
+            self.trainer = Trainer(model=self.model, args=self.training_args, data_collator=data_collator,
+                                   train_dataset=train_dataset, eval_dataset=test_dataset)
 
-        self.trainer = Trainer(model=self.model, args=self.training_args, data_collator=data_collator,
-                               train_dataset=train_dataset, eval_dataset=test_dataset)
+            self.trainer.train()
 
-        self.trainer.train()
+            self.trainer.save_model()
 
-        self.trainer.save_model()
+        except Exception as e:
+            print(f"Caught an exception while fine tuning the model: {e}")
 
-    except Exception as e:
-        print(f"Caught an exception while fine tuning the model: {e}")
-
-
-def predict_text(self, input_text):
-    try:
-        input_ids = self.tokenizer.encode(input_text, return_tensors='pt').to('cuda')
-        output = self.model.generate(input_ids, max_length=self.max_output_length,
-                                     num_return_sequences=self.num_return_sequences)
-        return self.tokenizer.decode(output[0],
-                                     skip_special_tokens=self.skip_special_tokens)
-    except Exception as e:
-        print(f"Caught an exception while predicting text: {e}")
+    def predict_text(self, input_text):
+        try:
+            input_ids = self.tokenizer.encode(input_text, return_tensors='pt').to('cuda')
+            output = self.model.generate(input_ids, max_length=self.max_output_length,
+                                         num_return_sequences=self.num_return_sequences)
+            return self.tokenizer.decode(output[0],
+                                         skip_special_tokens=self.skip_special_tokens)
+        except Exception as e:
+            print(f"Caught an exception while predicting text: {e}")
