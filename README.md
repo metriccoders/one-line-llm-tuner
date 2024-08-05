@@ -27,5 +27,9 @@ The PyPI package can be used in the following way after installation.
 ```bash
 from one_line_llm_tuner.tuner import llm_tuner
 
-print(llm_tuner.fine_tune_model("train.txt", "Metric Coders is "))
+fine_tune_obj = llm_tuner.FineTuneModel()
+
+fine_tune_obj.fine_tune_model(input_file_path="train.txt")
+
+fine_tune_obj.predict_text("Elon musk founded Spacex in ")
 ```
