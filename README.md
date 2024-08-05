@@ -1,6 +1,6 @@
 # 🔥 One Line LLM Tuner
 
-Fine-tune a Large Language Model (LLM) in a single line.
+Fine-tune any Large Language Model (LLM) available on [Hugging Face](https://www.huggingface.co) in a single line. It is created by [Suhas Bhairav](https://www.metriccoders.com).
 
 ## Overview
 
@@ -33,6 +33,33 @@ fine_tune_obj.fine_tune_model(input_file_path="train.txt")
 
 fine_tune_obj.predict_text("Elon musk founded Spacex in ")
 ```
+
+If you want to modify the default values such as type of model used, tokenizer and more, use the following code.
+
+```bash
+from one_line_llm_tuner.tuner import llm_tuner
+
+fine_tune_obj = llm_tuner.FineTuneModel(model_name="gpt2",
+                 test_size=0.3,
+                 training_dataset_filename="train_dataset.txt",
+                 testing_dataset_filename="test_dataset.txt",
+                 tokenizer_truncate=True,
+                 tokenizer_padding=True,
+                 output_dir="./results",
+                 num_train_epochs=2,
+                 logging_steps=500,
+                 save_steps=500,
+                 per_device_train_batch_size=128,
+                 per_device_eval_batch_size=128,
+                 max_output_length=100,
+                 num_return_sequences=1,
+                 skip_special_tokens=True,)
+
+fine_tune_obj.fine_tune_model(input_file_path="train.txt")
+
+fine_tune_obj.predict_text("Elon musk founded Spacex in ")
+```
+
 
 ## Contributing
 We welcome contributions! Please see the [contributing guide](CONTRIBUTING.md) for more details.
