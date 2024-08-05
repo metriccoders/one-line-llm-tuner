@@ -6,6 +6,72 @@ from sklearn.model_selection import train_test_split
 
 
 class FineTuneModel:
+    """
+    A class to fine tune a Large Language Model
+
+    Attributes
+    ----------
+    model_name : str
+        The name of the base model
+
+    test_size : float
+        The size of the test dataset in decimals
+
+    training_dataset_filename : str
+        The name of the training dataset file
+
+    testing_dataset_filename : str
+        The name of the testing dataset file
+
+    tokenizer_truncate : bool
+        To truncate the tokens or not
+
+    tokenizer_padding : bool
+        To pad the tokens or not
+
+    output_dir : str
+        The default directory of the output
+
+    num_train_epochs : int
+        The default number of training epochs
+
+    logging_steps : int
+        The number steps before logging the evaluation
+
+    save_steps : int
+        The number of steps before saving the evaluation
+
+    per_device_train_batch_size : int
+        The batch size of training tokens
+
+    per_device_eval_batch_size=64 : int
+        The batch size of evaluation tokens
+
+    max_output_length : int
+        The maximum number of output tokens
+
+    num_return_sequences : int
+        The number of return sequences
+
+    skip_special_tokens : bool
+        To skip special tokens or not
+
+
+    Methods
+    -------
+    get_tokenizer():
+        Returns the tokenizer
+
+    get_init_model():
+        Returns the model
+
+    fine_tune_model():
+        Fine-tune the LLM
+
+    predict_text():
+        Perform text prediction
+
+    """
     def __init__(self,
                  model_name="gpt2",
                  test_size=0.2,
@@ -56,12 +122,25 @@ class FineTuneModel:
         self.trainer = Trainer(model=self.model, args=self.training_args)
 
     def get_tokenizer(self):
+        """
+        Returns the tokenizer object
+        :return: Tokenizer object
+        """
         return self.tokenizer
 
     def get_init_model(self):
+        """
+        Returns the model object
+        :return: Model object
+        """
         return self.model
 
     def fine_tune_model(self, input_file_path):
+        """
+        Fine tune the Large Language Model
+        :param input_file_path:
+        :return: None
+        """
         try:
             text = read_input_file(input_file_path)
             train, test = train_test_split(text, test_size=0.2)
@@ -82,6 +161,11 @@ class FineTuneModel:
             print(f"Caught an exception while fine tuning the model: {e}")
 
     def predict_text(self, input_text):
+        """
+        Prediction of future text
+        :param input_text:
+        :return: Output text
+        """
         try:
             input_ids = self.tokenizer.encode(input_text, return_tensors='pt').to('cuda')
             output = self.model.generate(input_ids, max_length=self.max_output_length,
