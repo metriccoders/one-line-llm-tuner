@@ -1,4 +1,4 @@
-# 🔥 One Line LLM Tuner
+# 🔥 One Line LLM Tuner 🔥
 
 Fine-tune any Large Language Model (LLM) available on [Hugging Face](https://www.huggingface.co) in a single line. It is created by [Suhas Bhairav](https://www.metriccoders.com).
 
