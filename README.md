@@ -65,4 +65,4 @@ fine_tune_obj.predict_text("Elon musk founded Spacex in ")
 We welcome contributions! Please see the [contributing guide](Contributing.md) for more details.
 
 ## License
-This project is licensed under the terms of the MIT license. See the [LICENSE](LICENSE.txt) file for details.
+This project is licensed under the terms of the Apache license. See the [LICENSE](LICENSE.txt) file for details.
