@@ -3,6 +3,9 @@ from one_line_llm_tuner.reader.file_reader import read_input_file
 from one_line_llm_tuner.builder.text_file_builder import build_text_files
 from one_line_llm_tuner.dataset.dataset_loader import load_dataset
 from sklearn.model_selection import train_test_split
+import logging
+
+logger: logging.Logger = logging.getLogger("one-line-llm-tuner")
 
 
 class FineTuneModel:
@@ -72,6 +75,7 @@ class FineTuneModel:
         Perform text prediction
 
     """
+
     def __init__(self,
                  model_name="gpt2",
                  test_size=0.2,
@@ -158,6 +162,7 @@ class FineTuneModel:
             self.trainer.save_model()
 
         except Exception as e:
+            logger.error(f"Caught an exception while fine tuning the model: {e}")
             print(f"Caught an exception while fine tuning the model: {e}")
 
     def predict_text(self, input_text):
@@ -173,4 +178,5 @@ class FineTuneModel:
             return self.tokenizer.decode(output[0],
                                          skip_special_tokens=self.skip_special_tokens)
         except Exception as e:
+            logger.error(f"Caught an exception while predicting text: {e}")
             print(f"Caught an exception while predicting text: {e}")
