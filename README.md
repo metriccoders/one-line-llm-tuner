@@ -8,7 +8,7 @@ Fine-tune any Large Language Model (LLM) available on [Hugging Face](https://www
 
 ## Features
 
-- **Simple**: Fine-tune models with minimal code.
+- **Simple**: Fine-tune Large Language Models (LLMs) with minimal code.
 - **Supports Popular LLMs**: Works with models from the `transformers` library, including GPT, BERT, and more.
 - **Customizable**: Advanced users can customize the fine-tuning process with additional parameters.
 
