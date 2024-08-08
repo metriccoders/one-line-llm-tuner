@@ -34,7 +34,7 @@ fine_tune_obj.fine_tune_model(input_file_path="train.txt")
 fine_tune_obj.predict_text("Elon musk founded Spacex in ")
 ```
 
-If you want to modify the default values such as type of model used, tokenizer and more, use the following code.
+The above example is for default values. If you want to modify the default values such as type of model used, tokenizer and more, use the following code.
 
 ```bash
 from one_line_llm_tuner.tuner import llm_tuner
